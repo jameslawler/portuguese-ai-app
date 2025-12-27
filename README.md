@@ -1,21 +1,11 @@
-```txt
-npm install
-npm run dev
-```
+# TugAI
 
-```txt
-npm run deploy
-```
+Portuguese Learning AI web application
 
-[For generating/synchronizing types based on your Worker configuration run](https://developers.cloudflare.com/workers/wrangler/commands/#types):
+## Requirements
 
-```txt
-npm run cf-typegen
-```
+## Setup
 
-Pass the `CloudflareBindings` as generics when instantiation `Hono`:
+Install dependencies using `npm install`.
 
-```ts
-// src/index.ts
-const app = new Hono<{ Bindings: CloudflareBindings }>()
-```
+

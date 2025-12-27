@@ -4,12 +4,14 @@
 	"scripts": {
 		"dev": "wrangler dev",
 		"deploy": "wrangler deploy --minify",
+		"htmx": "cp node_modules/htmx.org/dist/htmx.min.js public/htmx.min.js",
 		"cf-typegen": "wrangler types --env-interface CloudflareBindings"
 	},
 	"dependencies": {
-		"hono": "^4.11.3"
+		"hono": "4.11.3",
+		"htmx.org": "2.0.8"
 	},
 	"devDependencies": {
-		"wrangler": "^4.54.0"
+		"wrangler": "4.54.0"
 	}
 }
