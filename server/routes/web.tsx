@@ -3,6 +3,7 @@ import { AuthUser, AuthSession } from "../auth";
 import HomePage from "../../client/pages/home-page";
 import SignupPage from "../../client/pages/signup-page";
 import SigninPage from "../../client/pages/signin-page";
+import BuilderPage from "../../client/pages/builder-page";
 
 const web = new Hono<{
   Bindings: CloudflareBindings;
@@ -24,6 +25,10 @@ web.get("/signup", (c) => {
 
 web.get("/signin", (c) => {
   return c.html(<SigninPage />);
+});
+
+web.get("/editor", (c) => {
+  return c.html(<BuilderPage />);
 });
 
 export default web;

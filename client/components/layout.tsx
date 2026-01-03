@@ -10,6 +10,7 @@ const Layout: FC = (props) => {
       </head>
       <body>
         <>{props.children}</>
+        <script src="/alpine.min.js" defer></script>
         <script src="/htmx.min.js"></script>
       </body>
     </html>
