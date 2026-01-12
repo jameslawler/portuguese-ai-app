@@ -5,9 +5,9 @@ import { getAuth } from "../../auth";
 import AuthSignup from "../../../client/components/auth-signup";
 import AuthSignin from "../../../client/components/auth-signin";
 
-const auth = new Hono<{ Bindings: CloudflareBindings }>();
+const api = new Hono<{ Bindings: CloudflareBindings }>();
 
-auth.post("/sign-up/email", async (c) => {
+api.post("/sign-up/email", async (c) => {
   const db = getDb(c.env.DB);
   const auth = getAuth(db);
 
@@ -35,7 +35,7 @@ auth.post("/sign-up/email", async (c) => {
   }
 });
 
-auth.post("/sign-in/email", async (c) => {
+api.post("/sign-in/email", async (c) => {
   const db = getDb(c.env.DB);
   const auth = getAuth(db);
 
@@ -62,7 +62,7 @@ auth.post("/sign-in/email", async (c) => {
   }
 });
 
-auth.post("/sign-out", async (c) => {
+api.post("/sign-out", async (c) => {
   const db = getDb(c.env.DB);
   const auth = getAuth(db);
 
@@ -82,4 +82,4 @@ auth.post("/sign-out", async (c) => {
   }
 });
 
-export default auth;
+export default api;

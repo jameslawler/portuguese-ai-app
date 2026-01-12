@@ -8,12 +8,13 @@ const BuilderListPage: FC<{ plans: string[] }> = (props: {
   return (
     <Layout>
       <h1>List</h1>
-      <form method="post" action="/plans/new">
+      <form hx-post="/api/v1/plans">
+        <input type="text" name="name" value="My first plan" />
         <button
           type="submit"
           class="mb-4 rounded bg-blue-600 px-4 py-2 text-white"
         >
-          ➕ New plan
+          New plan
         </button>
       </form>
 

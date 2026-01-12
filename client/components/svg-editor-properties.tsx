@@ -53,19 +53,23 @@ const SvgEditorPropertiesLine = `
   </div>
 `;
 
-const SvgEditorProperties = `
+export const getSvgEditorProperties = (planId: string) => `
     <form
-      hx-post="/diagram/save"
+      hx-put="/api/v1/plans/${planId}"
       hx-trigger="submit"
       hx-swap="none"
       class="mt-6"
     >
       <input
         type="hidden"
+        name="name"
+        value="New name"
+      />
+      <input
+        type="hidden"
         name="nodes"
         :value="JSON.stringify(nodes)"
       />
-
       <button
         type="submit"
         class="px-4 py-2 bg-blue-600 text-white rounded"
@@ -79,5 +83,3 @@ const SvgEditorProperties = `
       ${SvgEditorPropertiesLine}
     </div>
   `;
-
-export default SvgEditorProperties;

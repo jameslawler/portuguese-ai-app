@@ -1,4 +1,4 @@
-const SvgEditorScript = `
+export const getSvgEditorScript = (nodes: string) => `
   function svgEditor() {
       return {
         options: [
@@ -7,7 +7,7 @@ const SvgEditorScript = `
           { group: 'node', type: 'lesson', x: 20, y: 140, width: 120, height: 40, color: 'lightgreen', stroke: 'black', message: 'Lesson' },
           { group: 'line', type: 'line-horizontal', x: 20, y: 200, width: 120, height: 40, color: 'yellow', stroke: 'black', message: 'Line-X' },
         ],
-        nodes: [],
+        nodes: ${nodes},
         lines: [],
         dragging: false,
         resizing: false,
@@ -186,5 +186,3 @@ const SvgEditorScript = `
       })
     });
   `;
-
-export default SvgEditorScript;

@@ -1,11 +1,12 @@
 import type { FC } from "hono/jsx";
 
-import SvgEditorProperties from "./svg-editor-properties";
-import SvgEditorScript from "./svg-editor-script";
+import { getSvgEditorProperties } from "./svg-editor-properties";
+import { getSvgEditorScript } from "./svg-editor-script";
 import { SvgEditorNodesLesson, SvgEditorNodesLine, SvgEditorNodesTitle, SvgEditorNodesUnit } from "./svg-editor-nodes";
 
-const SvgEditor: FC<{
-}> = (props: { }) => {
+const SvgEditor: FC<{ plan: { id: string, name: string | null, nodes: string | null } }> = (props: {
+  plan: { id: string, name: string | null, nodes: string | null };
+}) => {
   const html = `
     <div x-data="svgEditor()" class="flex flex-row">
       <svg width="1200" height="1011"
@@ -82,12 +83,12 @@ const SvgEditor: FC<{
         <g>
       </svg>
       <div class="mt-6">
-        ${SvgEditorProperties}
+        ${getSvgEditorProperties(props.plan.id)}
       </div>
     </div>
 
     <script>
-      ${SvgEditorScript}
+      ${getSvgEditorScript(props.plan.nodes || "[]")}
     </script>
   `;
 

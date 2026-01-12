@@ -1,5 +1,5 @@
 import { drizzle as drizzleD1 } from "drizzle-orm/d1";
-import * as schema from "./better-auth-schema";
+import * as schema from "./schema";
 
 export function getDb(db?: D1Database) {
     if (db) {
