@@ -9,6 +9,7 @@ import SignupPage from "../../client/pages/signup-page";
 import SigninPage from "../../client/pages/signin-page";
 import BuilderPage from "../../client/pages/builder-page";
 import BuilderListPage from "../../client/pages/builder-list-page";
+import PlanPage from "../../client/pages/plan-page";
 
 const web = new Hono<{
   Bindings: CloudflareBindings;
@@ -32,14 +33,21 @@ web.get("/signin", (c) => {
   return c.html(<SigninPage />);
 });
 
-web.get("/editor", (c) => {
+web.get("/editor", async (c) => {
   const user = c.get("user");
 
   if (!user) {
     return c.body(null, 401);
   }
 
-  return c.html(<BuilderListPage plans={[]} />);
+  const db = getDb(c.env.DB);
+
+  const plans = await db
+    .select()
+    .from(schema.plans)
+    .all();
+
+  return c.html(<BuilderListPage plans={plans} />);
 });
 
 web.get("/editor/edit/:id", async (c) => {
@@ -64,6 +72,30 @@ web.get("/editor/edit/:id", async (c) => {
   }
 
   return c.html(<BuilderPage plan={plan} />);
+});
+
+web.get("/plans/:id", async (c) => {
+  const user = c.get("user");
+
+  if (!user) {
+    return c.body(null, 401);
+  }
+
+  const db = getDb(c.env.DB);
+  
+  const planId = c.req.param("id");
+
+  const plan = await db
+    .select()
+    .from(schema.plans)
+    .where(eq(schema.plans.id, planId))
+    .get();
+
+  if (!plan) {
+    return c.json({ error: "Plan not found" }, 404);
+  }
+
+  return c.html(<PlanPage plan={plan} />);
 });
 
 export default web;

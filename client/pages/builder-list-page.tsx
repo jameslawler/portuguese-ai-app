@@ -2,8 +2,8 @@ import type { FC } from "hono/jsx";
 
 import Layout from "../components/layout";
 
-const BuilderListPage: FC<{ plans: string[] }> = (props: {
-  plans: string[];
+const BuilderListPage: FC<{ plans: { id: string, name: string | null, nodes: string | null }[] }> = (props: {
+  plans: { id: string, name: string | null, nodes: string | null }[];
 }) => {
   return (
     <Layout>
@@ -21,7 +21,7 @@ const BuilderListPage: FC<{ plans: string[] }> = (props: {
       <div class="flex h-full">
         <div class="w-full">
           { props.plans.map((plan) => (
-            <div>{plan}</div>
+            <div>{plan.name}</div>
           ))}
         </div>
       </div>
