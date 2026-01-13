@@ -33,10 +33,22 @@ web.get("/signin", (c) => {
 });
 
 web.get("/editor", (c) => {
-  return c.html(<BuilderListPage plans={["James", "Rita", "Melissa"]} />);
+  const user = c.get("user");
+
+  if (!user) {
+    return c.body(null, 401);
+  }
+
+  return c.html(<BuilderListPage plans={[]} />);
 });
 
 web.get("/editor/edit/:id", async (c) => {
+  const user = c.get("user");
+
+  if (!user) {
+    return c.body(null, 401);
+  }
+
   const db = getDb(c.env.DB);
   
   const planId = c.req.param("id");

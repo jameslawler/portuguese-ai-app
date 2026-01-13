@@ -5,6 +5,8 @@ import { getAuth } from "../../auth";
 import AuthSignup from "../../../client/components/auth-signup";
 import AuthSignin from "../../../client/components/auth-signin";
 
+const isSignupEnabled = false;
+
 const api = new Hono<{ Bindings: CloudflareBindings }>();
 
 api.post("/sign-up/email", async (c) => {
@@ -17,6 +19,16 @@ api.post("/sign-up/email", async (c) => {
     email: string;
     password: string;
   };
+
+  if (!isSignupEnabled) {
+    return c.html(
+      <AuthSignup
+        errorMessage="New accounts are currently not allowed."
+        defaultName={body.name}
+        defaultEmail={body.email}
+      />
+    );
+  }
 
   try {
     await auth.api.signUpEmail({ body });

@@ -8,7 +8,7 @@ const AuthSignup: FC<{ errorMessage?: string, defaultName?: string, defaultEmail
   return (
     <div id="signup-container">
       {props.errorMessage && (
-        <p style="color:red">Error: ${props.errorMessage}</p>
+        <p style="color:red">Error: {props.errorMessage}</p>
       )}
       <form
         hx-post="/api/auth/sign-up/email"
