@@ -22,9 +22,10 @@ api.get("/", async (c) => {
   }
 
   const db = getDb(c.env.DB);
+  const userStatus = { isLoggedIn: !!user };
   const plans = await getPlans(db);
 
-  return c.html(<BuilderListPage plans={plans} />);
+  return c.html(<BuilderListPage user={userStatus} plans={plans} />);
 });
 
 api.get("/edit/:id", async (c) => {
@@ -35,6 +36,7 @@ api.get("/edit/:id", async (c) => {
   }
 
   const db = getDb(c.env.DB);
+  const userStatus = { isLoggedIn: !!user };
   const planId = c.req.param("id");
   const plan = await getPlan(db, planId);
 
@@ -42,7 +44,7 @@ api.get("/edit/:id", async (c) => {
     return c.json({ error: "Plan not found" }, 404);
   }
 
-  return c.html(<BuilderPage plan={plan} />);
+  return c.html(<BuilderPage user={userStatus} plan={plan} />);
 });
 
 export default api;

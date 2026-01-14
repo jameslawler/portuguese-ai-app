@@ -13,11 +13,15 @@ const api = new Hono<{
 }>();
 
 api.get("/signup", (c) => {
-  return c.html(<SignupPage />);
+  const userStatus = { isLoggedIn: false };
+
+  return c.html(<SignupPage user={userStatus} />);
 });
 
 api.get("/signin", (c) => {
-  return c.html(<SigninPage />);
+  const userStatus = { isLoggedIn: false };
+  
+  return c.html(<SigninPage user={userStatus} />);
 });
 
 export default api;
