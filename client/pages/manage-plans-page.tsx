@@ -1,9 +1,10 @@
 import type { FC } from "hono/jsx";
 
 import Layout from "../components/layout";
+import { Plan } from "../../types/plan";
 
-const BuilderListPage: FC<{ plans: { id: string, name: string | null, nodes: string | null }[] }> = (props: {
-  plans: { id: string, name: string | null, nodes: string | null }[];
+const ManagePlansPage: FC<{ plans: Plan[] }> = (props: {
+  plans: Plan[];
 }) => {
   return (
     <Layout>
@@ -21,7 +22,7 @@ const BuilderListPage: FC<{ plans: { id: string, name: string | null, nodes: str
       <div class="flex h-full">
         <div class="w-full">
           { props.plans.map((plan) => (
-            <div>{plan.name}</div>
+            <div><a href={`/manage/edit/${plan.id}`}>{plan.name}</a></div>
           ))}
         </div>
       </div>
@@ -29,4 +30,4 @@ const BuilderListPage: FC<{ plans: { id: string, name: string | null, nodes: str
   );
 };
 
-export default BuilderListPage;
+export default ManagePlansPage;

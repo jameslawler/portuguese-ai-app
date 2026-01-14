@@ -2,9 +2,10 @@ import type { FC } from "hono/jsx";
 
 import Layout from "../components/layout";
 import SvgViewer from "../components/svg-viewer";
+import { Plan } from "../../types/plan";
 
-const PlanPage: FC<{ plan: { id: string, name: string | null, nodes: string | null } }> = (props: {
-  plan: { id: string, name: string | null, nodes: string | null };
+const PlanPage: FC<{ plan: Plan }> = (props: {
+  plan: Plan;
 }) => {
   return (
     <Layout>

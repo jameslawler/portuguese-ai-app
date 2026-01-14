@@ -1,35 +1,21 @@
 import type { FC } from "hono/jsx";
 
 import Layout from "../components/layout";
+import Navbar from "../components/navbar";
+import { Plan } from "../../types/plan";
+import { User } from "../../types/auth";
+import SvgViewer from "../components/svg-viewer";
 
-const HomePage: FC<{ userName?: string }> = (props: { userName?: string }) => {
+const HomePage: FC<{ user: User; homePlan: Plan }> = (props: {
+  user: User;
+  homePlan: Plan;
+}) => {
   return (
     <Layout>
-      <h1 class="text-xl">Portuguese AI</h1>
-      {props.userName && (
-        <>
-          <ul>Hello {props.userName}!</ul>
-          <div>
-            <a
-              href="#"
-              hx-post="/api/auth/sign-out"
-              hx-trigger="click"
-              hx-swap="none"
-            >
-              Sign out
-            </a>
-          </div>
-        </>
-      )}
-      {!props.userName && (
-        <>
-          <ul>Hello friend!</ul>
-          <div>
-            <a href="/signin">Sign In</a>
-            <a href="/signup">Sign Up</a>
-          </div>
-        </>
-      )}
+      <Navbar user={props.user} />
+      <div class="flex h-full justify-center">
+        <SvgViewer plan={ props.homePlan } />
+      </div>
     </Layout>
   );
 };

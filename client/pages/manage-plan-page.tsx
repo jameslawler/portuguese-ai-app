@@ -2,9 +2,10 @@ import type { FC } from "hono/jsx";
 
 import Layout from "../components/layout";
 import SvgEditor from "../components/svg-editor";
+import { Plan } from "../../types/plan";
 
-const BuilderPage: FC<{ plan: { id: string, name: string | null, nodes: string | null } }> = (props: {
-  plan: { id: string, name: string | null, nodes: string | null };
+const ManagePlanPage: FC<{ plan: Plan }> = (props: {
+  plan: Plan;
 }) => {
   return (
     <Layout>
@@ -18,4 +19,4 @@ const BuilderPage: FC<{ plan: { id: string, name: string | null, nodes: string |
   );
 };
 
-export default BuilderPage;
+export default ManagePlanPage;
