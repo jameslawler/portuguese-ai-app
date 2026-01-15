@@ -11,8 +11,12 @@ const SigninPage: FC<{ user: User }> = (props: {
   return (
     <Layout>
       <Navbar user={props.user} />
-      <h1>Sign In</h1>
-      <AuthSignin />
+      <div class="flex h-full justify-center">
+        <main class="container">
+          <h1>Sign In</h1>
+          <AuthSignin />
+        </main>
+      </div>
     </Layout>
   );
 };

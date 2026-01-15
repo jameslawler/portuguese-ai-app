@@ -6,7 +6,7 @@ const Navbar: FC<{ user: User }> = (props: { user: User }) => {
     <nav class="bg-blue-900 text-white">
       <div class="max-w-7xl mx-auto px-6">
         <div class="flex h-16 items-center justify-between">
-          <div class="text-xl font-semibold tracking-wide">Portuguese AI</div>
+          <div class="text-xl font-semibold tracking-wide"><a href="/">Portuguese AI</a></div>
           {props.user.isLoggedIn && (
             <div class="flex space-x-6">
               <a

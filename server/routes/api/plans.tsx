@@ -6,24 +6,6 @@ import * as schema from "../../db/schema";
 
 const api = new Hono<{ Bindings: CloudflareBindings }>();
 
-api.get("/:id", async (c) => {
-  const db = getDb(c.env.DB);
-
-  const planId = c.req.param("id");
-
-  const plan = await db
-    .select()
-    .from(schema.plans)
-    .where(eq(schema.plans.id, planId))
-    .get();
-
-  if (!plan) {
-    return c.json({ error: "Plan not found" }, 404);
-  }
-
-  return c.json(plan);
-});
-
 api.post("/", async (c) => {
   const db = getDb(c.env.DB);
 
@@ -56,6 +38,7 @@ api.put("/:id", async (c) => {
   const body = Object.fromEntries(formData.entries()) as {
     name: string;
     nodes: string;
+    isHomePlan: string;
   };
 
   const result = await db
@@ -63,6 +46,7 @@ api.put("/:id", async (c) => {
     .set({
       name: body.name,
       nodes: body.nodes,
+      isHomePlan: body.isHomePlan === "on"
     })
     .where(eq(schema.plans.id, planId))
     .returning({ id: schema.plans.id });

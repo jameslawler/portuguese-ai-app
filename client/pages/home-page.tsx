@@ -14,7 +14,9 @@ const HomePage: FC<{ user: User; homePlan: Plan }> = (props: {
     <Layout>
       <Navbar user={props.user} />
       <div class="flex h-full justify-center">
-        <SvgViewer plan={ props.homePlan } />
+        <main class="container">
+          <SvgViewer plan={ props.homePlan } />
+        </main>
       </div>
     </Layout>
   );

@@ -10,6 +10,11 @@ const HomePageError: FC<{ user: User; }> = (props: {
   return (
     <Layout>
       <Navbar user={props.user} />
+      <div class="flex h-full justify-center">
+        <main class="container">
+          Error
+        </main>
+      </div>
     </Layout>
   );
 };

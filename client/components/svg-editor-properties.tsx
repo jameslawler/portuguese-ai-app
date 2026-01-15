@@ -106,6 +106,10 @@ export const SvgEditorProperties: FC<{ planId: string }> = ({ planId }) => {
           type="hidden"
           name="nodes"
         />
+        <input
+          type="checkbox"
+          name="isHomePlan"
+        />
         <button class="px-4 py-2 bg-blue-600 text-white rounded">
           Save diagram
         </button>

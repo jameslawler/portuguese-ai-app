@@ -1,0 +1,1 @@
+ALTER TABLE `plans` ADD `is_home_plan` integer DEFAULT false NOT NULL;

@@ -15,3 +15,10 @@ export const getPlan = async (db: DrizzleClient, id: string) =>
     .from(schema.plans)
     .where(eq(schema.plans.id, id))
     .get();
+
+export const getHomePlan = async (db: DrizzleClient) =>
+  db
+    .select()
+    .from(schema.plans)
+    .where(eq(schema.plans.isHomePlan, true))
+    .get();

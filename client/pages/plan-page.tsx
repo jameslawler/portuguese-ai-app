@@ -13,9 +13,13 @@ const PlanPage: FC<{ user: User, plan: Plan }> = (props: {
   return (
     <Layout>
       <Navbar user={props.user} />
-      <h1>Plan for { props.plan.id }</h1>
       <div class="flex h-full justify-center">
-        <SvgViewer plan={ props.plan } />
+        <main class="container">
+          <h1>Plan for { props.plan.id }</h1>
+          <div class="flex h-full justify-center">
+            <SvgViewer plan={ props.plan } />
+          </div>
+        </main>
       </div>
     </Layout>
   );
