@@ -28,7 +28,7 @@ api.get("/", async (c) => {
   return c.html(<BuilderListPage user={userStatus} plans={plans} />);
 });
 
-api.get("/edit/:id", async (c) => {
+api.get("/:id", async (c) => {
   const user = c.get("user");
 
   if (!user) {

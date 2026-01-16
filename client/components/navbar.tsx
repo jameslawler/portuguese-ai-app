@@ -23,7 +23,7 @@ const Navbar: FC<{ user: User }> = (props: { user: User }) => {
           {!props.user.isLoggedIn && (
             <div class="flex space-x-6">
               <a
-                href="/account/signun"
+                href="/account/signup"
                 class="text-sm font-medium hover:text-blue-300 transition-colors"
               >
                 Sign Up

@@ -15,7 +15,6 @@ const ManagePlanPage: FC<{ user: User, plan: Plan }> = (props: {
       <Navbar user={props.user} />
       <div class="flex h-full justify-center">
         <main>
-          <h1>Builder for { props.plan.id }</h1>
           <div class="flex h-full">
             <div class="w-full">
               <SvgEditor plan={ props.plan } />

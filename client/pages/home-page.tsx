@@ -4,7 +4,7 @@ import Layout from "../components/layout";
 import Navbar from "../components/navbar";
 import { Plan } from "../../types/plan";
 import { User } from "../../types/auth";
-import SvgViewer from "../components/svg-viewer";
+import PlanViewer from "../components/plan-viewer";
 
 const HomePage: FC<{ user: User; homePlan: Plan }> = (props: {
   user: User;
@@ -15,7 +15,7 @@ const HomePage: FC<{ user: User; homePlan: Plan }> = (props: {
       <Navbar user={props.user} />
       <div class="flex h-full justify-center">
         <main class="container">
-          <SvgViewer plan={ props.homePlan } />
+          <PlanViewer plan={ props.homePlan } />
         </main>
       </div>
     </Layout>

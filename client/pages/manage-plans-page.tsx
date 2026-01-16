@@ -27,7 +27,7 @@ const ManagePlansPage: FC<{ user: User, plans: Plan[] }> = (props: {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {props.plans.map((plan) => (
               <a
-                href={`/manage/edit/${plan.id}`}
+                href={`/manage/${plan.id}`}
                 class="block rounded-lg bg-white p-6 shadow-sm ring-1 ring-gray-200 hover:shadow-md hover:ring-blue-500 transition"
               >
                 <h2 class="text-lg font-medium text-gray-900">

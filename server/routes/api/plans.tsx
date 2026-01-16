@@ -25,7 +25,7 @@ api.post("/", async (c) => {
     .returning({ id: schema.plans.id });
 
   return c.json(null, 200, {
-      "HX-Redirect": `/editor/edit/${insertedPlan.id}`,
+      "HX-Redirect": `/manage/${insertedPlan.id}`,
     });
 });
 
