@@ -9,6 +9,8 @@ export type SvgViewerNodeType = {
   color: string;
   stroke: string;
   message?: string;
+  resourceId?: string;
+  lessonId?: string;
 };
 
 export const SvgViewerNode: FC<{
@@ -18,9 +20,13 @@ export const SvgViewerNode: FC<{
   return (
     <g
       {...{
-        "hx-get": "/resources/b5d126ce-b376-483b-b415-828bcda77431",
+        "hx-post": "/nodes",
         "hx-target": "#modal-content",
         "hx-trigger": "click",
+        "hx-vals": JSON.stringify({
+          resourceId: node.resourceId,
+          lessonId: node.lessonId,
+        }),
       }}
       class="hover:cursor-pointer"
       onclick="document.getElementById('modal').classList.remove('hidden')"

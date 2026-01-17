@@ -15,7 +15,7 @@ api.post("/", async (c) => {
     markdown: string;
   };
 
-  const [insertedResource] = await db
+  const [inserted] = await db
     .insert(schema.resources)
     .values({
       id: crypto.randomUUID(),
@@ -25,7 +25,7 @@ api.post("/", async (c) => {
     .returning({ id: schema.resources.id });
 
   return c.json(null, 200, {
-    "HX-Redirect": `/manage/resources/${insertedResource.id}`,
+    "HX-Redirect": `/manage/resources/${inserted.id}`,
   });
 });
 

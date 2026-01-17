@@ -2,8 +2,8 @@ import { Hono } from "hono";
 
 import { AuthUser, AuthSession } from "../../auth";
 import { getDb } from "../../db";
-import { getResource } from "../../db/repositories/resources";
-import ResourceModal from "../../../client/components/modal-resource";
+import { getLesson } from "../../db/repositories/lessons";
+import LessonModal from "../../../client/components/modal-lesson";
 
 const api = new Hono<{
   Bindings: CloudflareBindings;
@@ -22,14 +22,14 @@ api.get("/:id", async (c) => {
 
   const db = getDb(c.env.DB);
   const userStatus = { isLoggedIn: !!user };
-  const resourceId = c.req.param("id");
-  const resource = await getResource(db, resourceId);
+  const lessonId = c.req.param("id");
+  const lesson = await getLesson(db, lessonId);
 
-  if (!resource) {
-    return c.json({ error: "Resource not found" }, 404);
+  if (!lesson) {
+    return c.json({ error: "Lesson not found" }, 404);
   }
 
-  return c.html(<ResourceModal user={userStatus} resource={resource} />);
+  return c.html(<LessonModal user={userStatus} lesson={lesson} />);
 });
 
 export default api;

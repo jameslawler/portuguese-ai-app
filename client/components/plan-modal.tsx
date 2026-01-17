@@ -8,7 +8,7 @@ const PlanModal: FC<{ plan: Plan }> = (props: { plan: Plan }) => {
       class="fixed inset-0 z-50 hidden bg-black/50"
       onclick="if (event.target === this) this.classList.add('hidden')"
     >
-      <div class="absolute right-0 top-0 h-full w-[500px] bg-white shadow-xl flex flex-col">
+      <div class="absolute right-0 top-0 h-full w-125 bg-white shadow-xl flex flex-col">
         <div class="flex p-4">
           <button
             onclick="document.getElementById('modal').classList.add('hidden')"

@@ -7,6 +7,19 @@ export type ResourceItem = {
   type: "article" | "video";
 };
 
+export const resources = sqliteTable("resources", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  markdown: text("markdown").notNull(),
+  links: text("links", { mode: "json" }).$type<ResourceItem[]>(),
+});
+
+export const lessons = sqliteTable("lessons", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull(),
+  markdown: text("markdown").notNull(),
+});
+
 export const plans = sqliteTable("plans", {
   id: text("id").primaryKey(),
   name: text("name"),
@@ -14,11 +27,4 @@ export const plans = sqliteTable("plans", {
   isHomePlan: integer("is_home_plan", { mode: "boolean" })
     .notNull()
     .default(false),
-});
-
-export const resources = sqliteTable("resources", {
-  id: text("id").primaryKey(),
-  title: text("title").notNull(),
-  markdown: text("markdown").notNull(),
-  links: text("links", { mode: "json" }).$type<ResourceItem[]>(),
 });

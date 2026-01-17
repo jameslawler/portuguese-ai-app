@@ -53,7 +53,9 @@ export const getSvgEditorScript = (nodes: string) => `
               height: option.height,
               color: option.color,
               stroke: option.stroke,
-              message: 'new node'
+              message: 'new node',
+              resourceId: '',
+              lessonId: ''
             });
           }
 
