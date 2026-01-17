@@ -3,10 +3,12 @@ import { Hono } from "hono";
 import { AuthUser, AuthSession } from "../../auth";
 import HomePage from "../../../client/pages/home-page";
 import account from "./account";
-import manage from "./manage";
+import managePlans from "./manage-plans";
+import manageResources from "./manage-resources";
 import plans from "./plans";
+import resources from "./resources";
 import { getDb } from "../../db";
-import { getHomePlan } from "../../db/repositories/plan";
+import { getHomePlan } from "../../db/repositories/plans";
 import HomePageError from "../../../client/pages/home-page-error";
 
 const api = new Hono<{
@@ -20,7 +22,7 @@ const api = new Hono<{
 api.get("/", async (c) => {
   const user = c.get("user");
   const db = getDb(c.env.DB);
-  
+
   const plan = await getHomePlan(db);
 
   const userStatus = { isLoggedIn: !!user };
@@ -34,8 +36,12 @@ api.get("/", async (c) => {
 
 api.route("/account", account);
 
-api.route("/manage", manage);
+api.route("/manage/plans", managePlans);
+
+api.route("/manage/resources", manageResources);
 
 api.route("/plans", plans);
+
+api.route("/resources", resources);
 
 export default api;

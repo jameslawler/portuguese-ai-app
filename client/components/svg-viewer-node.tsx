@@ -16,7 +16,17 @@ export const SvgViewerNode: FC<{
   index: number;
 }> = ({ node, index }) => {
   return (
-    <g key={index} transform={`translate(${node.x}, ${node.y})`}>
+    <g
+      {...{
+        "hx-get": "/resources/b5d126ce-b376-483b-b415-828bcda77431",
+        "hx-target": "#modal-content",
+        "hx-trigger": "click",
+      }}
+      class="hover:cursor-pointer"
+      onclick="document.getElementById('modal').classList.remove('hidden')"
+      key={index}
+      transform={`translate(${node.x}, ${node.y})`}
+    >
       <rect
         width={node.width}
         height={node.height}

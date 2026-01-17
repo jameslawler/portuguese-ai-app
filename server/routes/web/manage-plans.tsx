@@ -2,8 +2,8 @@ import { Hono } from "hono";
 
 import { AuthUser, AuthSession } from "../../auth";
 import { getDb } from "../../db";
-import PlanPage from "../../../client/pages/plan-page";
-import PlansPage from "../../../client/pages/plans-page";
+import ManagePlan from "../../../client/pages/manage-plan-page";
+import ManagePlans from "../../../client/pages/manage-plans-page";
 import { getPlan, getPlans } from "../../db/repositories/plans";
 
 const api = new Hono<{
@@ -25,7 +25,7 @@ api.get("/", async (c) => {
   const userStatus = { isLoggedIn: !!user };
   const plans = await getPlans(db);
 
-  return c.html(<PlansPage user={userStatus} plans={plans} />);
+  return c.html(<ManagePlans user={userStatus} plans={plans} />);
 });
 
 api.get("/:id", async (c) => {
@@ -44,7 +44,7 @@ api.get("/:id", async (c) => {
     return c.json({ error: "Plan not found" }, 404);
   }
 
-  return c.html(<PlanPage user={userStatus} plan={plan} />);
+  return c.html(<ManagePlan user={userStatus} plan={plan} />);
 });
 
 export default api;

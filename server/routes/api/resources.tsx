@@ -11,51 +11,49 @@ api.post("/", async (c) => {
 
   const formData = await c.req.formData();
   const body = Object.fromEntries(formData.entries()) as {
-    name: string;
-    nodes: string;
+    title: string;
+    markdown: string;
   };
 
-  const [insertedPlan] = await db
-    .insert(schema.plans)
+  const [insertedResource] = await db
+    .insert(schema.resources)
     .values({
       id: crypto.randomUUID(),
-      name: body.name,
-      nodes: body.nodes,
+      title: body.title,
+      markdown: body.markdown,
     })
-    .returning({ id: schema.plans.id });
+    .returning({ id: schema.resources.id });
 
   return c.json(null, 200, {
-    "HX-Redirect": `/manage/plans/${insertedPlan.id}`,
+    "HX-Redirect": `/manage/resources/${insertedResource.id}`,
   });
 });
 
 api.put("/:id", async (c) => {
   const db = getDb(c.env.DB);
 
-  const planId = c.req.param("id");
+  const resourceId = c.req.param("id");
 
   const formData = await c.req.formData();
   const body = Object.fromEntries(formData.entries()) as {
-    name: string;
-    nodes: string;
-    isHomePlan: string;
+    title: string;
+    markdown: string;
   };
 
   const result = await db
-    .update(schema.plans)
+    .update(schema.resources)
     .set({
-      name: body.name,
-      nodes: body.nodes,
-      isHomePlan: body.isHomePlan === "on",
+      title: body.title,
+      markdown: body.markdown,
     })
-    .where(eq(schema.plans.id, planId))
-    .returning({ id: schema.plans.id });
+    .where(eq(schema.resources.id, resourceId))
+    .returning({ id: schema.resources.id });
 
   if (result.length === 0) {
-    return c.json({ error: "Plan not found" }, 404);
+    return c.json({ error: "Resource not found" }, 404);
   }
 
-  return c.json({ id: planId }, 200);
+  return c.json({ id: resourceId }, 200);
 });
 
 export default api;

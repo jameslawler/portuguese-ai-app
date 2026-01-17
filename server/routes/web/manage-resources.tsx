@@ -2,9 +2,9 @@ import { Hono } from "hono";
 
 import { AuthUser, AuthSession } from "../../auth";
 import { getDb } from "../../db";
-import BuilderPage from "../../../client/pages/manage-plan-page";
-import BuilderListPage from "../../../client/pages/manage-plans-page";
-import { getPlan, getPlans } from "../../db/repositories/plan";
+import ManageResource from "../../../client/pages/manage-resource-page";
+import ManageResources from "../../../client/pages/manage-resources-page";
+import { getResource, getResources } from "../../db/repositories/resources";
 
 const api = new Hono<{
   Bindings: CloudflareBindings;
@@ -23,9 +23,9 @@ api.get("/", async (c) => {
 
   const db = getDb(c.env.DB);
   const userStatus = { isLoggedIn: !!user };
-  const plans = await getPlans(db);
+  const resources = await getResources(db);
 
-  return c.html(<BuilderListPage user={userStatus} plans={plans} />);
+  return c.html(<ManageResources user={userStatus} resources={resources} />);
 });
 
 api.get("/:id", async (c) => {
@@ -37,14 +37,14 @@ api.get("/:id", async (c) => {
 
   const db = getDb(c.env.DB);
   const userStatus = { isLoggedIn: !!user };
-  const planId = c.req.param("id");
-  const plan = await getPlan(db, planId);
+  const resourceId = c.req.param("id");
+  const resource = await getResource(db, resourceId);
 
-  if (!plan) {
-    return c.json({ error: "Plan not found" }, 404);
+  if (!resource) {
+    return c.json({ error: "Resource not found" }, 404);
   }
 
-  return c.html(<BuilderPage user={userStatus} plan={plan} />);
+  return c.html(<ManageResource user={userStatus} resource={resource} />);
 });
 
 export default api;
