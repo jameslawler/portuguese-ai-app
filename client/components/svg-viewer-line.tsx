@@ -7,6 +7,7 @@ export type SvgViewerLineType = {
   x2: number;
   y2: number;
   stroke: string;
+  lineType: "dotted" | "solid";
 };
 
 export const SvgViewerLine: FC<{
@@ -20,7 +21,7 @@ export const SvgViewerLine: FC<{
       y2={node.y2}
       stroke={node.stroke}
       stroke-width="2"
-      stroke-dasharray="8"
+      stroke-dasharray={node.lineType === "dotted" ? "8" : "0"}
     />
   );
 };

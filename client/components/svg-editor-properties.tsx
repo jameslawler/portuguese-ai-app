@@ -121,6 +121,25 @@ const SvgEditorPropertiesLine: FC = () => {
           />
         </div>
       ))}
+      <div
+        {...{
+          "x-show": "nodes[dragIndex].type==='line-horizontal'",
+        }}
+        class="mb-4"
+      >
+        <label class="block mb-2.5 text-sm font-medium text-heading">
+          Type
+        </label>
+        <select
+          x-bind:value="dragIndex !== null ? nodes[dragIndex].lineType : ''"
+          x-on:change="nodes[dragIndex].lineType = $event.target.value"
+          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
+        >
+          <option value="">Select a line type</option>
+          <option value="solid">Solid</option>
+          <option value="dotted">Dotted</option>
+        </select>
+      </div>
     </>
   );
 };

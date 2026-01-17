@@ -67,7 +67,8 @@ export const getSvgEditorScript = (nodes: string) => `
               x2: option.width - 160,
               y2: option.y + (option.height / 2),
               color: option.color,
-              stroke: option.stroke
+              stroke: option.stroke,
+              lineType: 'dotted'
             });
           }
           

@@ -116,11 +116,11 @@ export const SvgEditorNodesLine: FC = () => {
           ":y1": "node.y1",
           ":x2": "node.x2",
           ":y2": "node.y2",
+          ":stroke-dasharray": "node.lineType === 'dotted' ? '8' : '0'",
         }}
         class="hover:cursor-pointer"
         stroke="black"
         stroke-width="2"
-        stroke-dasharray="8"
       />
 
       <rect
