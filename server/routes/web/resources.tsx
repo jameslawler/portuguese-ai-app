@@ -3,7 +3,7 @@ import { Hono } from "hono";
 import { AuthUser, AuthSession } from "../../auth";
 import { getDb } from "../../db";
 import { getResource } from "../../db/repositories/resources";
-import ResourcePage from "../../../client/pages/resource-page";
+import ResourceModal from "../../../client/components/resource-modal";
 
 const api = new Hono<{
   Bindings: CloudflareBindings;
@@ -29,7 +29,7 @@ api.get("/:id", async (c) => {
     return c.json({ error: "Resource not found" }, 404);
   }
 
-  return c.html(<ResourcePage user={userStatus} resource={resource} />);
+  return c.html(<ResourceModal user={userStatus} resource={resource} />);
 });
 
 export default api;
