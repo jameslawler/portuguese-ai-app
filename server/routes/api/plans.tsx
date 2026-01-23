@@ -1,8 +1,7 @@
 import { Hono } from "hono";
-import { eq } from "drizzle-orm";
 
 import { getDb } from "../../db";
-import * as schema from "../../db/schema";
+import { createPlan, updatePlan } from "../../db/repositories/plans";
 
 const api = new Hono<{ Bindings: CloudflareBindings }>();
 
@@ -15,14 +14,11 @@ api.post("/", async (c) => {
     nodes: string;
   };
 
-  const [inserted] = await db
-    .insert(schema.plans)
-    .values({
-      id: crypto.randomUUID(),
-      name: body.name,
-      nodes: body.nodes,
-    })
-    .returning({ id: schema.plans.id });
+  const [inserted] = await createPlan(db, {
+    name: body.name,
+    nodes: body.nodes,
+    isHomePlan: false,
+  });
 
   return c.json(null, 200, {
     "HX-Redirect": `/manage/plans/${inserted.id}`,
@@ -41,15 +37,12 @@ api.put("/:id", async (c) => {
     isHomePlan: string;
   };
 
-  const result = await db
-    .update(schema.plans)
-    .set({
-      name: body.name,
-      nodes: body.nodes,
-      isHomePlan: body.isHomePlan === "on",
-    })
-    .where(eq(schema.plans.id, planId))
-    .returning({ id: schema.plans.id });
+  const result = await updatePlan(db, {
+    id: planId,
+    name: body.name,
+    nodes: body.nodes,
+    isHomePlan: body.isHomePlan === "on",
+  });
 
   if (result.length === 0) {
     return c.json({ error: "Plan not found" }, 404);

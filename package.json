@@ -7,6 +7,7 @@
     "dev:css": "npx @tailwindcss/cli -i ./client/input.css -o ./public/index.css --watch",
     "deploy": "wrangler deploy --minify",
     "htmx": "cp node_modules/htmx.org/dist/htmx.min.js public/htmx.min.js",
+    "htmx:sse": "cp node_modules/htmx-ext-sse/dist/sse.min.js public/sse.min.js",
     "alpine": "cp node_modules/alpinejs/dist/cdn.min.js public/alpine.min.js",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "db:generate": "drizzle-kit generate",
@@ -20,8 +21,10 @@
     "better-auth": "1.4.9",
     "drizzle-orm": "0.45.1",
     "hono": "4.11.4",
+    "htmx-ext-sse": "2.2.4",
     "htmx.org": "2.0.8",
     "marked": "17.0.1",
+    "openai": "6.16.0",
     "tailwindcss": "4.1.18"
   },
   "devDependencies": {

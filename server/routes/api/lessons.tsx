@@ -1,8 +1,7 @@
 import { Hono } from "hono";
-import { eq } from "drizzle-orm";
 
 import { getDb } from "../../db";
-import * as schema from "../../db/schema";
+import { createLesson, updateLesson } from "../../db/repositories/lessons";
 
 const api = new Hono<{ Bindings: CloudflareBindings }>();
 
@@ -15,14 +14,10 @@ api.post("/", async (c) => {
     markdown: string;
   };
 
-  const [inserted] = await db
-    .insert(schema.lessons)
-    .values({
-      id: crypto.randomUUID(),
-      title: body.title,
-      markdown: body.markdown,
-    })
-    .returning({ id: schema.lessons.id });
+  const [inserted] = await createLesson(db, {
+    title: body.title,
+    markdown: body.markdown,
+  });
 
   return c.json(null, 200, {
     "HX-Redirect": `/manage/lessons/${inserted.id}`,
@@ -40,14 +35,11 @@ api.put("/:id", async (c) => {
     markdown: string;
   };
 
-  const result = await db
-    .update(schema.lessons)
-    .set({
-      title: body.title,
-      markdown: body.markdown,
-    })
-    .where(eq(schema.lessons.id, lessonId))
-    .returning({ id: schema.lessons.id });
+  const result = await updateLesson(db, {
+    id: lessonId,
+    title: body.title,
+    markdown: body.markdown,
+  });
 
   if (result.length === 0) {
     return c.json({ error: "Lesson not found" }, 404);

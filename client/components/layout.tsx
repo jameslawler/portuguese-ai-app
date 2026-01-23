@@ -12,6 +12,7 @@ const Layout: FC = (props) => {
         <>{props.children}</>
         <script src="/alpine.min.js" defer></script>
         <script src="/htmx.min.js"></script>
+        <script src="/sse.min.js"></script>
       </body>
     </html>
   );

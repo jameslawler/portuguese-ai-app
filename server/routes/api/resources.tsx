@@ -21,6 +21,8 @@ api.post("/", async (c) => {
       id: crypto.randomUUID(),
       title: body.title,
       markdown: body.markdown,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     })
     .returning({ id: schema.resources.id });
 
@@ -45,6 +47,7 @@ api.put("/:id", async (c) => {
     .set({
       title: body.title,
       markdown: body.markdown,
+      updatedAt: Date.now(),
     })
     .where(eq(schema.resources.id, resourceId))
     .returning({ id: schema.resources.id });

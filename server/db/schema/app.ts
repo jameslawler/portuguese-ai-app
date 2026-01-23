@@ -12,12 +12,16 @@ export const resources = sqliteTable("resources", {
   title: text("title").notNull(),
   markdown: text("markdown").notNull(),
   links: text("links", { mode: "json" }).$type<ResourceItem[]>(),
+  createdAt: integer("createdAt").notNull(),
+  updatedAt: integer("updatedAt").notNull(),
 });
 
 export const lessons = sqliteTable("lessons", {
   id: text("id").primaryKey(),
   title: text("title").notNull(),
   markdown: text("markdown").notNull(),
+  createdAt: integer("createdAt").notNull(),
+  updatedAt: integer("updatedAt").notNull(),
 });
 
 export const plans = sqliteTable("plans", {
@@ -27,4 +31,15 @@ export const plans = sqliteTable("plans", {
   isHomePlan: integer("is_home_plan", { mode: "boolean" })
     .notNull()
     .default(false),
+  createdAt: integer("createdAt").notNull(),
+  updatedAt: integer("updatedAt").notNull(),
+});
+
+export const messages = sqliteTable("messages", {
+  id: text("id").primaryKey(),
+  userId: text("userId").notNull(),
+  role: text("role").notNull(),
+  content: text("content").notNull(),
+  createdAt: integer("createdAt").notNull(),
+  updatedAt: integer("updatedAt").notNull(),
 });
