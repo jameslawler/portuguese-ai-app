@@ -3,6 +3,7 @@ import { OpenAI } from "openai";
 import { getDb } from "../../db";
 import { createMessage, getMessage } from "../../db/repositories/messages";
 import { AuthSession, AuthUser } from "../../auth";
+import { getLesson } from "../../db/repositories/lessons";
 
 const api = new Hono<{
   Bindings: CloudflareBindings;
@@ -23,6 +24,8 @@ api.post("/chat", async (c) => {
   const formData = await c.req.formData();
   const body = Object.fromEntries(formData.entries()) as {
     message: string;
+    contextType: string;
+    contextId: string;
   };
 
   const [message] = await createMessage(db, {
@@ -33,9 +36,9 @@ api.post("/chat", async (c) => {
 
   return c.html(`
     <div class="text-red-700">${body.message}</div>
-    <div 
+    <div
       hx-ext="sse"
-      sse-connect="/api/v1/ai/chat/${message.id}/fake"
+      sse-connect="/api/v1/ai/chat/${message.id}?contextType=${body.contextType}&contextId=${body.contextId}"
       sse-close="done"
       sse-swap="message"
       hx-swap="beforeend"
@@ -94,6 +97,9 @@ api.get("/chat/:messageId/fake", async (c) => {
 api.get("/chat/:messageId", async (c) => {
   const user = c.get("user");
   const messageId = c.req.param("messageId");
+  const contextType = c.req.query()["contextType"];
+  const contextId = c.req.query()["contextId"];
+
   const db = getDb(c.env.DB);
 
   if (!user || !user.id) {
@@ -106,6 +112,21 @@ api.get("/chat/:messageId", async (c) => {
     return c.body(null, 401);
   }
 
+  let customContext = "";
+
+  if (contextType === "lesson") {
+    const lesson = await getLesson(db, contextId);
+
+    if (lesson) {
+      console.log("lesson is", lesson.id);
+      const headlines = [...lesson.markdown.matchAll(/^#+\s+(.*)$/gm)].map(
+        (match) => match[1]
+      );
+
+      customContext = headlines.map((h) => `* ${h}`).join("\n");
+    }
+  }
+
   const client = new OpenAI({
     apiKey: c.env.AI_API_KEY,
   });
@@ -113,13 +134,28 @@ api.get("/chat/:messageId", async (c) => {
   const stream = await client.responses.create({
     model: "gpt-5-nano",
     stream: true,
+    reasoning: { effort: "minimal" },
     input: [
       {
         role: "system",
         content: [
           {
             type: "input_text",
-            text: "You are a helpful Portuguese tutor. Give concise answers only.",
+            text: `
+You are an expert in Portugal and the Portuguese language. Keep answers concise and under 50 words if possible. Use the context below if context is not clear.
+
+## Context
+
+* Portugal
+${customContext}
+  
+## Rules
+
+* Reply in English as the teaching language but keep the context relevant to Portugal and the Portuguese language.
+* The reply can contain Portuguese words when necessary for teaching.
+* Keep the answer relevant to the question.
+* Keep the answer factual.
+`,
           },
         ],
       },

@@ -28,7 +28,7 @@ const Modal: FC<{
 
   return (
     <div
-      x-data={`{ activeTab: '${defaultTab}', chatOpen: false }`}
+      x-data={`{ activeTab: '${defaultTab}', chatOpen: false, contextType: 'lesson', contextId: '${props.lessonId}' }`}
       class="flex flex-col h-full"
     >
       <div class="border-b border-gray-200">
@@ -94,7 +94,6 @@ const Modal: FC<{
           {...{
             ":class": `chatOpen ? 'h-[calc(100%-3rem)]' : 'hidden'`,
           }}
-          x-transition
         >
           <Chat messages={props.messages} />
         </div>
