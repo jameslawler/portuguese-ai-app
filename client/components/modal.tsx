@@ -36,7 +36,7 @@ const Modal: FC<{
           <button
             {...{
               ":class": `activeTab === 'learn' ? "${selectedTabClass}" : "${unselectedTabClass}"`,
-              "@click": "activeTab = 'learn'",
+              "@click": `activeTab = 'learn';contextType='lesson';contextId='${props.lessonId}'`,
             }}
             hx-get={`/lessons/${props.lessonId}`}
             hx-target="#modal-tab-content"
@@ -47,7 +47,7 @@ const Modal: FC<{
           <button
             {...{
               ":class": `activeTab === 'resources' ? "${selectedTabClass}" : "${unselectedTabClass}"`,
-              "@click": "activeTab = 'resources'",
+              "@click": `activeTab = 'resources';contextType='resources';contextId='${props.resourceId}'`,
             }}
             hx-get={`/resources/${props.resourceId}`}
             hx-target="#modal-tab-content"
