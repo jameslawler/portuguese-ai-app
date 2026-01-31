@@ -5,12 +5,12 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "portuguese-ai-app",
-	"main": "server/index.tsx",
+	"main": "src/server/index.tsx",
 	"compatibility_date": "2025-12-25",
 	"compatibility_flags": ["nodejs_compat"],
 	"assets": {
 		"binding": "ASSETS",
-		"directory": "./public"
+		"directory": "./src/public"
 	},
 	"observability": {
 		"enabled": true
