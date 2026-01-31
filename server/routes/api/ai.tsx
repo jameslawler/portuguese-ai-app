@@ -4,6 +4,7 @@ import { getDb } from "../../db";
 import { createMessage, getMessage } from "../../db/repositories/messages";
 import { AuthSession, AuthUser } from "../../auth";
 import { getLesson } from "../../db/repositories/lessons";
+import Exercises from "../../../client/components/exercises";
 
 const api = new Hono<{
   Bindings: CloudflareBindings;
@@ -151,10 +152,10 @@ ${customContext}
   
 ## Rules
 
-* Reply in English as the teaching language but keep the context relevant to Portugal and the Portuguese language.
-* The reply can contain Portuguese words when necessary for teaching.
-* Keep the answer relevant to the question.
-* Keep the answer factual.
+- Reply in English as the teaching language but keep the context relevant to Portugal and the Portuguese language.
+- The reply can contain Portuguese words when necessary for teaching.
+- Keep the answer relevant to the question.
+- Keep the answer factual.
 `,
           },
         ],
@@ -200,6 +201,100 @@ ${customContext}
       },
     }
   );
+});
+
+api.get("/exercises", async (c) => {
+  const user = c.get("user");
+
+  if (!user || !user.id) {
+    return c.body(null, 401);
+  }
+
+  const client = new OpenAI({
+    apiKey: c.env.AI_API_KEY,
+  });
+
+  const response = await client.responses.create({
+    model: "gpt-5-nano",
+    reasoning: { effort: "minimal" },
+    input: [
+      {
+        role: "system",
+        content: [
+          {
+            type: "input_text",
+            text: `
+You are a quiz generator.
+
+Generate multiple-choice questions about Portugal.
+Questions should be factual, clear, and suitable for general knowledge.
+Each question must have exactly one correct answer.
+Do not include explanations, commentary, or extra text.
+Only generate data that matches the provided JSON schema.
+`,
+          },
+        ],
+      },
+      {
+        role: "user",
+        content: [
+          { type: "input_text", text: "Generate 5 multiple-choice questions." },
+        ],
+      },
+    ],
+    text: {
+      format: {
+        type: "json_schema",
+        name: "portugal_quiz",
+        schema: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            questions: {
+              type: "array",
+              minItems: 1,
+              items: {
+                type: "object",
+                additionalProperties: false,
+                properties: {
+                  questionText: {
+                    type: "string",
+                    minLength: 1,
+                  },
+                  answers: {
+                    type: "array",
+                    minItems: 2,
+                    items: {
+                      type: "object",
+                      additionalProperties: false,
+                      properties: {
+                        answerText: {
+                          type: "string",
+                          minLength: 1,
+                        },
+                        isCorrect: {
+                          type: "boolean",
+                        },
+                      },
+                      required: ["answerText", "isCorrect"],
+                    },
+                  },
+                },
+                required: ["questionText", "answers"],
+              },
+            },
+          },
+          required: ["questions"],
+        },
+        strict: true,
+      },
+    },
+  });
+
+  const outputText = response.output_text?.trim();
+  const exercises = JSON.parse(outputText);
+
+  return c.html(<Exercises questions={exercises.questions} />);
 });
 
 export default api;

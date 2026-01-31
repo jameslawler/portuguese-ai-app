@@ -9,6 +9,7 @@ import manageLessons from "./manage-lessons";
 import plans from "./plans";
 import resources from "./resources";
 import lessons from "./lessons";
+import exercises from "./exercises";
 import nodes from "./nodes";
 import { getDb } from "../../db";
 import { getHomePlan } from "../../db/repositories/plans";
@@ -50,6 +51,8 @@ api.route("/plans", plans);
 api.route("/resources", resources);
 
 api.route("/lessons", lessons);
+
+api.route("/exercises", exercises);
 
 api.route("/nodes", nodes);
 
