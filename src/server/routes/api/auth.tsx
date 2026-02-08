@@ -5,8 +5,6 @@ import { getAuth } from "../../auth";
 import AuthSignup from "../../../client/components/auth-signup";
 import AuthSignin from "../../../client/components/auth-signin";
 
-const isSignupEnabled = false;
-
 const api = new Hono<{ Bindings: CloudflareBindings }>();
 
 api.post("/sign-up/email", async (c) => {
@@ -20,7 +18,7 @@ api.post("/sign-up/email", async (c) => {
     password: string;
   };
 
-  if (!isSignupEnabled) {
+  if (c.env.ALLOW_SIGNUPS !== "true") {
     return c.html(
       <AuthSignup
         errorMessage="New accounts are currently not allowed."
@@ -34,7 +32,7 @@ api.post("/sign-up/email", async (c) => {
     await auth.api.signUpEmail({ body });
 
     return c.body(null, 200, {
-      "HX-Redirect": "/signin",
+      "HX-Redirect": "/",
     });
   } catch (err: any) {
     return c.html(
@@ -61,7 +59,7 @@ api.post("/sign-in/email", async (c) => {
     const response = await auth.api.signInEmail({
       body,
       asResponse: true,
-      headers: c.req.raw.headers
+      headers: c.req.raw.headers,
     });
 
     response.headers.set("HX-Redirect", "/");
@@ -81,16 +79,14 @@ api.post("/sign-out", async (c) => {
   try {
     const response = await auth.api.signOut({
       asResponse: true,
-      headers: c.req.raw.headers
+      headers: c.req.raw.headers,
     });
 
     response.headers.set("HX-Redirect", "/");
 
     return response;
   } catch (err: any) {
-    return c.html(
-      <AuthSignin errorMessage={err.message} />
-    );
+    return c.html(<AuthSignin errorMessage={err.message} />);
   }
 });
 

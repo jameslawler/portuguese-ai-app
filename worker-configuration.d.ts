@@ -12,6 +12,7 @@ declare namespace Cloudflare {
 }
 interface CloudflareBindings extends Cloudflare.Env {
   AI_API_KEY: any;
+  ALLOW_SIGNUPS: string;
 }
 
 // Begin runtime types
