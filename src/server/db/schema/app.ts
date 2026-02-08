@@ -43,3 +43,33 @@ export const messages = sqliteTable("messages", {
   createdAt: integer("createdAt").notNull(),
   updatedAt: integer("updatedAt").notNull(),
 });
+
+export const scenarioSessions = sqliteTable("scenarioSessions", {
+  id: text("id").primaryKey(),
+  userId: text("userId").notNull(),
+  type: text("type").notNull(),
+  configuration: text("configuration").notNull(),
+  objectives: text("objectives").notNull(),
+  createdAt: integer("createdAt").notNull(),
+  updatedAt: integer("updatedAt").notNull(),
+});
+
+export const scenarioMessages = sqliteTable("scenarioMessages", {
+  id: text("id").primaryKey(),
+  userId: text("userId").notNull(),
+  sessionId: text("sessionId").notNull(),
+  role: text("role").notNull(),
+  content: text("content").notNull(),
+  createdAt: integer("createdAt").notNull(),
+  updatedAt: integer("updatedAt").notNull(),
+});
+
+export const scenarioMessageNotes = sqliteTable("scenarioMessageNotes", {
+  id: text("id").primaryKey(),
+  userId: text("userId").notNull(),
+  messageId: text("messageId").notNull(),
+  type: text("type").notNull(),
+  content: text("content").notNull(),
+  createdAt: integer("createdAt").notNull(),
+  updatedAt: integer("updatedAt").notNull(),
+});

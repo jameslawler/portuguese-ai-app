@@ -11,6 +11,7 @@ import resources from "./resources";
 import lessons from "./lessons";
 import exercises from "./exercises";
 import nodes from "./nodes";
+import scenarios from "./scenarios";
 import { getDb } from "../../db";
 import { getHomePlan } from "../../db/repositories/plans";
 import HomePageError from "../../../client/pages/home-page-error";
@@ -55,5 +56,7 @@ api.route("/lessons", lessons);
 api.route("/exercises", exercises);
 
 api.route("/nodes", nodes);
+
+api.route("/scenarios", scenarios);
 
 export default api;

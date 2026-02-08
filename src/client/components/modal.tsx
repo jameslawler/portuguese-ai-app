@@ -57,6 +57,17 @@ const Modal: FC<{
           </button>
           <button
             {...{
+              ":class": `activeTab === 'scenarios' ? "${selectedTabClass}" : "${unselectedTabClass}"`,
+              "@click": `activeTab = 'scenarios';contextType='lesson';contextId='${props.lessonId}'`,
+            }}
+            hx-get={`/scenarios`}
+            hx-target="#modal-tab-content"
+            hx-trigger="click"
+          >
+            Scenarios
+          </button>
+          <button
+            {...{
               ":class": `activeTab === 'resources' ? "${selectedTabClass}" : "${unselectedTabClass}"`,
               "@click": `activeTab = 'resources';contextType='resources';contextId='${props.resourceId}'`,
             }}
